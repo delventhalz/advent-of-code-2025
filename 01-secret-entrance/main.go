@@ -10,7 +10,7 @@ import (
 func parseRotation(rot string) int {
 	amount, _ := strconv.Atoi(rot[1:])
 
-	if (rot[0] == 'L') {
+	if rot[0] == 'L' {
 		return -amount
 	}
 
@@ -26,11 +26,11 @@ func partOne(input string) string {
 		pos += parseRotation(rot)
 
 		pos %= 100
-		if (pos < 0) {
+		if pos < 0 {
 			pos += 100
 		}
 
-		if (pos == 0) {
+		if pos == 0 {
 			zeroCount++
 		}
 	}
@@ -61,7 +61,7 @@ func partTwo(input string) string {
 		}
 
 		pos %= 100
-		if (pos < 0) {
+		if pos < 0 {
 			pos += 100
 		}
 	}
