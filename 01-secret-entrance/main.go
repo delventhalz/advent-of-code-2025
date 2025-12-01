@@ -7,6 +7,16 @@ import (
 	"os"
 )
 
+func absRemainder(num, divisor int) int {
+	remainder := num % divisor
+
+	if remainder < 0 {
+		return remainder + divisor
+	}
+
+	return remainder
+}
+
 func parseRotation(rot string) int {
 	amount, _ := strconv.Atoi(rot[1:])
 
@@ -24,11 +34,7 @@ func partOne(input string) string {
 
 	for _, rot := range rotations {
 		pos += parseRotation(rot)
-
-		pos %= 100
-		if pos < 0 {
-			pos += 100
-		}
+		pos = absRemainder(pos, 100)
 
 		if pos == 0 {
 			zeroCount++
@@ -60,10 +66,7 @@ func partTwo(input string) string {
 			zeroCount += -pos / 100 + 1
 		}
 
-		pos %= 100
-		if pos < 0 {
-			pos += 100
-		}
+		pos = absRemainder(pos, 100)
 	}
 
 	return fmt.Sprint(zeroCount)
