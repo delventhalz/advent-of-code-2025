@@ -6,7 +6,13 @@ For 2025 I am doing something a little different than [past years](https://githu
 
 ## Usage
 
-TBD
+Might eventually add a stub-file generator and some other utilities, but for now I am just copying some blank [template](./template) files and running them with `go run`.
+
+```
+cp -r template my-solution
+cd my-solution
+go run .
+```
 
 ## Leaderboard
 
