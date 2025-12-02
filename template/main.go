@@ -22,7 +22,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	input := string(inputBytes)
+	input := strings.Trim(string(inputBytes), "\n")
 	fmt.Printf("Part One Solution: %s\n", partOne(input))
 	fmt.Printf("Part Two Solution: %s\n", partTwo(input))
 }
