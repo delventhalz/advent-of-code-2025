@@ -1,3 +1,3 @@
 module 05-cafeteria
 
-go 1.14
+go 1.25
