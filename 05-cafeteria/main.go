@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"slices"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -33,52 +34,23 @@ func isFresh(freshRanges [][2]int64, id int64) bool {
 	return false
 }
 
-func findGteFrom(target int64, numbers []int64, from int) (int, int64) {
-	if (from >= len(numbers)) {
-		return -1, 0
-	}
-
-	for i, num := range numbers[from:] {
-		if num >= target {
-			return from + i, num
-		}
-	}
-
-	return -1, 0
-}
-
 func combineRanges(ranges [][2]int64) [][2]int64 {
-	starts := make([]int64, len(ranges))
-	ends := make([]int64, len(ranges))
-	for i, rng := range ranges {
-		starts[i] = rng[0]
-		ends[i] = rng[1]
-	}
+	ordered := slices.Clone(ranges)
+	sort.Slice(ordered, func(i, j int) bool {
+		return ordered[i][0] < ordered[j][0]
+	})
 
-	slices.Sort(starts)
-	slices.Sort(ends)
-
-	s, e := 0, 0
-	var start, end int64
-	start = starts[s]
 	var combined [][2]int64
+	var last [2]int64
 
-	for e < len(ends) {
-		e, end = findGteFrom(start, ends, e)
-		combined = append(combined, [2]int64{start, end})
-
-		nextS, _ := findGteFrom(end + 1, starts, s + 1)
-		if (nextS == -1) {
-			start = end + 1
-		} else if (nextS - s > 1) {
-			s = nextS - 1
-			start = end + 1
-		} else {
-			s++
-			start = starts[s]
+	for _, rng := range ordered {
+		if combined == nil || rng[0] > last[1] {
+			last = rng
+			combined = append(combined, rng)
+		} else if (rng[1] > last[1]) {
+			last = [2]int64{last[1] + 1, rng[1]}
+			combined = append(combined, last)
 		}
-
-		e++
 	}
 
 	return combined
